@@ -18,7 +18,7 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="overline mb-4">{{ projectName }}</div>
-                <v-list-item-title class="headline mb-1 d-flex justify-center">Releasability</v-list-item-title>
+                <v-list-item-title class="headline mb-1 d-flex justify-center">Quality</v-list-item-title>
                 <v-list-item-subtitle class="d-flex justify-center">
                   <span
                     class="rated"
