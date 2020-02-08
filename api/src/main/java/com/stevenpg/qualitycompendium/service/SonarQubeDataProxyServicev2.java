@@ -53,6 +53,36 @@ public class SonarQubeDataProxyServicev2 {
     }
 
     /**
+     * Return project data based on input parameter
+     * @param projectKey incoming key for project
+     * @return project data in form of search response
+     */
+    public Mono<ProjectSearchResponse> getSpecificProject(String projectKey) {
+        log.info("getSpecificProject -> Retrieving project data for " + projectKey);
+        return client.get()
+                .uri(StateSingleton.getInstance().getSonarhosturl() + "/api/projects/search?projects=" + projectKey)
+                .header(BASIC_AUTH_HEADER_KEY, BASIC_HEADER_PREFIX + StateSingleton.getInstance().getBasicAuthHeader())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(ProjectSearchResponse.class)
+                .timeout(Duration.ofSeconds(5));
+    }
+
+    /**
+     * Get projects configured
+     * @return requested projects
+     */
+    public Mono<ProjectSearchResponse> getRequestedProjects() {
+        log.info("getRequestedProjects -> Retrieving configured project keys");
+        return client.get()
+                .uri(StateSingleton.getInstance().getSonarhosturl() + "/api/projects/search?projects=" + StateSingleton.getInstance().allProjectsAsCSV())
+                .header(BASIC_AUTH_HEADER_KEY, BASIC_HEADER_PREFIX + StateSingleton.getInstance().getBasicAuthHeader())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(ProjectSearchResponse.class);
+    }
+
+    /**
      * Get primary measures from project
      *
      * @return primary measures for project
@@ -79,17 +109,6 @@ public class SonarQubeDataProxyServicev2 {
                 .uri(StateSingleton.getInstance().getSonarhosturl() + "/about")
                 .exchange()
                 .map(ClientResponse::statusCode).subscribeOn(Schedulers.elastic())
-                .timeout(Duration.ofSeconds(5));
-    }
-
-    public Mono<ProjectSearchResponse> getSpecificProject(String projectKey) {
-        log.info("getSpecificProject -> Retrieving project data for " + projectKey);
-        return client.get()
-                .uri(StateSingleton.getInstance().getSonarhosturl() + "/api/projects/search?projects=" + projectKey)
-                .header(BASIC_AUTH_HEADER_KEY, BASIC_HEADER_PREFIX + StateSingleton.getInstance().getBasicAuthHeader())
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(ProjectSearchResponse.class)
                 .timeout(Duration.ofSeconds(5));
     }
 

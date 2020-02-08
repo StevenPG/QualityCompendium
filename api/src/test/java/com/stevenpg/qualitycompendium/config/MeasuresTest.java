@@ -8,8 +8,8 @@ class MeasuresTest {
 
     @Test
     public void instantiateMeasures() {
-        assertNotNull(Measures.configuredMeasuresGroupingOne);
-        assertNotNull(Measures.configuredMeasuresGroupingTwo);
+        assertNotNull(Measures.v2ProjectMeasures);
+        assertNotNull(Measures.v2GroupMeasures);
     }
 
 }

@@ -6,7 +6,6 @@ import com.stevenpg.qualitycompendium.loader.ProjectPage;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.PagingData;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.ProjectSearchResponse;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.SonarComponent;
-import com.stevenpg.qualitycompendium.service.SonarQubeDataProxyService;
 import com.stevenpg.qualitycompendium.service.SonarQubeDataProxyServicev2;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
@@ -21,7 +20,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,13 +30,10 @@ class SonarQubeDataProxyControllerv2Test {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Mock
-    private SonarQubeDataProxyService dataService;
-
-    @Mock
     private SonarQubeDataProxyServicev2 dataService2;
 
     @InjectMocks
-    private SonarQubeDataProxyControllerv2 proxyController = new SonarQubeDataProxyControllerv2(dataService, dataService2);
+    private SonarQubeDataProxyControllerv2 proxyController = new SonarQubeDataProxyControllerv2(dataService2);
 
     // Data
     private ProjectSearchResponse projectSearchResponse;

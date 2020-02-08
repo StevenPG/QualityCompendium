@@ -4,7 +4,6 @@ import com.stevenpg.qualitycompendium.data.StateSingleton;
 import com.stevenpg.qualitycompendium.loader.ProjectPage;
 import com.stevenpg.qualitycompendium.models.response.measures.MeasuresResponse;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.ProjectSearchResponse;
-import com.stevenpg.qualitycompendium.service.SonarQubeDataProxyService;
 import com.stevenpg.qualitycompendium.service.SonarQubeDataProxyServicev2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,10 @@ import static com.stevenpg.qualitycompendium.data.StateSingleton.getInstance;
 @RestController
 public class SonarQubeDataProxyControllerv2 {
 
-    private SonarQubeDataProxyService dataService;
     private SonarQubeDataProxyServicev2 proxyServicev2;
 
     @Autowired
-    public SonarQubeDataProxyControllerv2(SonarQubeDataProxyService dataService, SonarQubeDataProxyServicev2 proxyServicev2) {
-        this.dataService = dataService;
+    public SonarQubeDataProxyControllerv2(SonarQubeDataProxyServicev2 proxyServicev2) {
         this.proxyServicev2 = proxyServicev2;
     }
 
@@ -41,7 +38,7 @@ public class SonarQubeDataProxyControllerv2 {
     @GetMapping("/api/v2/searchProjects")
     public @ResponseBody
     Mono<ProjectSearchResponse> apiProxyGet() {
-        return dataService.getRequestedProjects();
+        return proxyServicev2.getRequestedProjects();
     }
 
     /**
@@ -52,7 +49,7 @@ public class SonarQubeDataProxyControllerv2 {
     @CrossOrigin({ "*" })
     @GetMapping("/api/v2/searchProjects/{projectkey}")
     public @ResponseBody Mono<ProjectSearchResponse> getProject(@PathVariable("projectkey") String projectKey) {
-        return dataService.getSpecificProject(projectKey);
+        return proxyServicev2.getSpecificProject(projectKey);
     }
 
     /**
@@ -109,7 +106,7 @@ public class SonarQubeDataProxyControllerv2 {
     @CrossOrigin({ "*" })
     @GetMapping("/api/v2/sonar-connection")
     public Mono<HttpStatus> checkSonarConnection() {
-        return dataService.getSonarQubeStatus();
+        return proxyServicev2.getSonarQubeStatus();
     }
 
     /**
