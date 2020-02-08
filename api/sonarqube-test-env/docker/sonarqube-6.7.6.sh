@@ -1,0 +1,1 @@
+docker run -d --name sonarqube -p 9000:9000 sonarqube:  sonarqube:6.7.6-community

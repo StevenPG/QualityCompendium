@@ -1,0 +1,6 @@
+mvn clean install -f ../pom.xml sonar:sonar -D"sonar.host.url=http://localhost:19100" -D"sonar.projectKey=project1"
+mvn clean install -f ../pom.xml sonar:sonar -D"sonar.host.url=http://localhost:19100" -D"sonar.projectKey=project2"
+mvn clean install -f ../pom.xml sonar:sonar -D"sonar.host.url=http://localhost:19200" -D"sonar.projectKey=project1"
+mvn clean install -f ../pom.xml sonar:sonar -D"sonar.host.url=http://localhost:19200" -D"sonar.projectKey=project2"
+mvn clean install -f ../pom.xml sonar:sonar -D"sonar.host.url=http://localhost:19300" -D"sonar.projectKey=project1"
+mvn clean install -f ../pom.xml sonar:sonar -D"sonar.host.url=http://localhost:19300" -D"sonar.projectKey=project2"

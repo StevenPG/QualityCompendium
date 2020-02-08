@@ -1,0 +1,28 @@
+{
+  "sonarhosturl": "http://192.168.2.155:19100",
+  "projectPages" : [
+    {
+      "pagename" : "Just One Project",
+      "projectKeys" : [
+        "project1",
+        "com.stevenpg:SonarQube-Portfolio-Free"
+      ]
+    },
+    {
+      "pagename" : "All Projects",
+      "projectKeys" : [
+        "project1",
+        "project2",
+        "com.stevenpg:SonarQube-Portfolio-Free"
+      ]
+    },
+    {
+      "pagename" : "Realistic Project",
+      "projectKeys" : [
+        "com.stevenpg:SonarQube-Portfolio-Free"
+      ]
+    }
+  ],
+  "sonarReadonlyUser" : "admin",
+  "sonarReadonlyPass" : "admin"
+}

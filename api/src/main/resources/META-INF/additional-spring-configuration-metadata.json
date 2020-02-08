@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "qc.update-interval-cron",
+      "type": "java.lang.String",
+      "description": "Description for qc.update-interval-cron."
+    },
+    {
+      "name": "qc.file-location",
+      "type": "java.lang.String",
+      "description": "Description for qc.file-location."
+    },
+    {
+      "name": "qc.read-only-user",
+      "type": "java.lang.String",
+      "description": "Description for qc.read-only-user."
+    },
+    {
+      "name": "qc.read-only-password",
+      "type": "java.lang.String",
+      "description": "Description for qc.read-only-password."
+    }
+  ] }
