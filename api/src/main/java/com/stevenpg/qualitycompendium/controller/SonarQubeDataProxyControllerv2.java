@@ -59,9 +59,7 @@ public class SonarQubeDataProxyControllerv2 {
     @GetMapping("/api/v2/projectGroups")
     public @ResponseBody Mono<List<String>> getProjectGroups() {
         List<ProjectPage> configuredPages = StateSingleton.getInstance().getProjectPages();
-        return Mono.just(configuredPages.stream().map(projectPage -> {
-            return projectPage.getPagename();
-        }).collect(Collectors.toList()));
+        return Mono.just(configuredPages.stream().map(ProjectPage::getPagename).collect(Collectors.toList()));
     }
 
     /**
@@ -94,7 +92,7 @@ public class SonarQubeDataProxyControllerv2 {
         return Mono.just(StateSingleton.getInstance().getProjectPages().stream()
                 .filter(projectPage -> projectPage.getPagename().equals(projectGroupName))
                 .map(ProjectPage::getProjectKeys)
-                .flatMap(projectPage -> projectPage.stream())
+                .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList()));
 
