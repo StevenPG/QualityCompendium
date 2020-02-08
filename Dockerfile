@@ -5,5 +5,5 @@ RUN mvn clean install -q
 
 FROM openjdk:11.0.5-jre-slim
 COPY --from=mvn-build /build/target/QualityCompendium-*.jar /app/QualityCompendium.jar
-ENTRYPOINT ["java", "-jar", "/app/SonarQube-Portfolio-Free.jar"]
+ENTRYPOINT ["java", "-jar", "/app/QualityCompendium.jar"]
 
