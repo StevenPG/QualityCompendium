@@ -52,7 +52,7 @@
             v-bind:style="{cursor: selectedCursor}"
           >mdi-check-circle</v-icon>
         </template>
-        <span v-if="sonarHealthy">qc API Connected to SonarQube</span>
+        <span v-if="sonarHealthy">QC API Connected to SonarQube</span>
       </v-tooltip>
     </div>
 
@@ -67,7 +67,7 @@
             v-bind:style="{cursor: selectedCursor}"
           >mdi-check-circle</v-icon>
         </template>
-        <span v-if="!sonarHealthy">qc API Disconnected from SonarQube</span>
+        <span v-if="!sonarHealthy">QC API Disconnected from SonarQube</span>
       </v-tooltip>
     </div>
 

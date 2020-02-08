@@ -17,7 +17,8 @@ export default {
     Title
   },
   data: () => ({
-    API_URL: ""
+    //API_URL: ""
+    API_URL: "http://localhost:8080"
   })
 };
 </script>

@@ -6,7 +6,20 @@
           <div class="d-flex flex-no-wrap justify-lg-space-around">
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="overline mb-4">{{ projectName }}</div>
+                <div v-if="apiHealthy">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                              large
+                              color="green"
+                              v-on="on"
+                              v-bind:style="{cursor: selectedCursor}"
+                      >mdi-check-circle</v-icon>
+                    </template>
+                    <span>Connected to qc API</span>
+                  </v-tooltip>
+                </div>
+                <div class="overline mb-4">{{ formattedProjectName }}</div>
                 <div class="mb-4">{{ coveragePercentage }}</div>
                 <v-list-item-title class="headline mb-1 d-flex justify-center">Status</v-list-item-title>
                 <v-list-item-subtitle class="d-flex justify-center">
@@ -16,7 +29,7 @@
             </v-list-item>
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="overline mb-8">_</div>
+                <div class="overline mb-8" style="color: white">_</div>
                 <v-list-item-title class="headline mb-1 d-flex justify-center">Reliability</v-list-item-title>
                 <v-list-item-subtitle class="d-flex justify-center">
                   <span class="rated" v-bind:style="{ backgroundColor: reliabilityRatingColor}">{{ reliabilityRatingAsLetter }}</span>
@@ -25,7 +38,7 @@
             </v-list-item>
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="overline mb-8">_</div>
+                <div class="overline mb-8" style="color: white">_</div>
                 <v-list-item-title class="headline mb-1 d-flex justify-center">Security</v-list-item-title>
                 <v-list-item-subtitle class="d-flex justify-center">
                   <span class="rated" v-bind:style="{ backgroundColor: securityRatingColor}">{{ securityRatingAsLetter }}</span>
@@ -146,6 +159,13 @@ export default {
   mounted() {
     this.loading = true;
 
+    // Shorten project names
+    if(this.projectName.length > 29){
+      this.formattedProjectName = this.projectName.substring(0, 29) + "..."
+    } else {
+      this.formattedProjectName = this.projectName
+    }
+
     axios
       .get(this.apiURL + "/api/v2/sonar-host")
       .then(response => {
@@ -208,6 +228,7 @@ export default {
   },
   data: () => ({
     coveragePercentage: null,
+    formattedProjectName: null,
     loading: false,
     releasabilityRating: null,
     reliabilityRating: null,

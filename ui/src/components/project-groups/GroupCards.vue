@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <GroupCard v-for="group in groups" :key="group" api_url="" v-bind:projectName="group"/>
+    <!--<GroupCard v-for="group in groups" :key="group" api_url="" v-bind:projectName="group"/>-->
+    <GroupCard v-for="group in groups" :key="group" api_url="http://localhost:8080" v-bind:projectName="group"/>
   </v-container>
 </template>
 
@@ -14,13 +15,15 @@ export default {
   },
   mounted() {
     // Make call to get project groups names
-    axios.get("/api/v2/projectGroups")
+    axios.get(this.apiURL + "/api/v2/projectGroups")
     .then(response => {
       this.groups = response.data;
     })
   },
   data: () => ({
-    groups: null
+    groups: null,
+    //apiURL: ""
+    apiURL: "http://localhost:8080"
   })
 };
 </script>
