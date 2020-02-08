@@ -3,6 +3,7 @@ package com.stevenpg.qualitycompendium.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stevenpg.qualitycompendium.data.StateSingleton;
 import com.stevenpg.qualitycompendium.loader.ProjectPage;
+import com.stevenpg.qualitycompendium.models.response.measures.MeasuresResponse;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.PagingData;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.ProjectSearchResponse;
 import com.stevenpg.qualitycompendium.models.response.projectsearch.SonarComponent;
@@ -11,18 +12,24 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
+import org.springframework.http.HttpStatus;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static reactor.core.publisher.Mono.when;
 
+@ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
 class SonarQubeDataProxyControllerv2Test {
 
@@ -78,5 +85,56 @@ class SonarQubeDataProxyControllerv2Test {
     @Test
     void getProjectGroups() {
         assertEquals(Arrays.asList("samplePageName").toString(), proxyController.getProjectGroups().block().toString());
+    }
+
+    @Test
+    void apiProxyGet() {
+        ProjectSearchResponse projectSearchResponse = new ProjectSearchResponse();
+        Mockito.when(dataService2.getRequestedProjects()).thenReturn(Mono.just(projectSearchResponse));
+        assertEquals(projectSearchResponse, proxyController.apiProxyGet().block());
+    }
+
+    @Test
+    void getProject() {
+        ProjectSearchResponse projectSearchResponse = new ProjectSearchResponse();
+        Mockito.when(dataService2.getSpecificProject(ArgumentMatchers.anyString())).thenReturn(Mono.just(projectSearchResponse));
+        assertEquals(projectSearchResponse, proxyController.getProject("testString").block());
+    }
+
+    @Test
+    void getMeasuresFromGroup() {
+        MeasuresResponse measuresResponse = new MeasuresResponse();
+        Mockito.when(dataService2.getGroupMeasures(ArgumentMatchers.anyString())).thenReturn(Flux.just(measuresResponse));
+        assertEquals(measuresResponse, proxyController.getMeasuresFromGroup("testString").blockFirst());
+    }
+
+    @Test
+    void getMeasuresFromProject() {
+        MeasuresResponse measuresResponse = new MeasuresResponse();
+        Mockito.when(dataService2.getProjectMeasures(ArgumentMatchers.anyString())).thenReturn(Mono.just(measuresResponse));
+        assertEquals(measuresResponse, proxyController.getMeasuresFromProject("testString").block());
+    }
+
+    @Test
+    void getProjectKeysFromProjectGroup() {
+        ProjectPage testPage = new ProjectPage();
+        testPage.setPagename("testName");
+        testPage.setProjectKeys(new ArrayList<>(Arrays.asList("project1", "project2")));
+
+        StateSingleton.getInstance().setProjectPages(new ArrayList<ProjectPage>(Arrays.asList(testPage)));
+        assertEquals(testPage.getProjectKeys(), proxyController.getProjectKeysFromProjectGroup("testName").block());
+    }
+
+    @Test
+    void checkSonarConnection() {
+        HttpStatus status = HttpStatus.OK;
+        Mockito.when(dataService2.getSonarQubeStatus()).thenReturn(Mono.just(status));
+        assertEquals(HttpStatus.OK, proxyController.checkSonarConnection().block());
+    }
+
+    @Test
+    void getSonarHost() {
+        StateSingleton.getInstance().setSonarhosturl("testHostURL");
+        assertEquals("testHostURL", proxyController.getSonarHost().getBody());
     }
 }

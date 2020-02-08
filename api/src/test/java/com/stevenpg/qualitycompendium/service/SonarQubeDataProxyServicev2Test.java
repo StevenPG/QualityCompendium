@@ -135,4 +135,17 @@ class SonarQubeDataProxyServicev2Test {
         );
         assertEquals(response, service.getSpecificProject("sampleProjectKey").block());
     }
+
+    @Test
+    void getRequestedProjects() throws JsonProcessingException {
+        // Build component output
+        ProjectSearchResponse response = new ProjectSearchResponse();
+        String jsonString = mapper.writeValueAsString(response);
+
+        mockSonarUrl.enqueue(new MockResponse()
+                .setBody(jsonString)
+                .addHeader("Content-Type", "application/json")
+        );
+        assertEquals(response, service.getRequestedProjects().block());
+    }
 }

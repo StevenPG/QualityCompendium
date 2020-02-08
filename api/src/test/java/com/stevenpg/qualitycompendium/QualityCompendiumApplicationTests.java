@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations="classpath:application-test.properties")
-class SonarQubePortfolioFreeApplicationTests {
+class QualityCompendiumApplicationTests {
 
 	@Test
 	void contextLoads() throws IOException {
