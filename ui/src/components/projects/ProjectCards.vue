@@ -1,7 +1,8 @@
 <template>
   <v-container>
     <!-- TODO add filter in search bar at top, passed down that will only show found projects -->
-    <ProjectCard coveragePercentage="65" v-for="project in projects" apiURL="" :key="project.name" v-bind:projectName="project"/>
+    <!--<ProjectCard coveragePercentage="65" v-for="project in projects" apiURL="" :key="project.name" v-bind:projectName="project"/>-->
+    <ProjectCard coveragePercentage="65" v-for="project in projects" apiURL="http://localhost:8080" :key="project.name" v-bind:projectName="project"/>
   </v-container>
 </template>
 
@@ -29,7 +30,8 @@ export default {
   data: () => ({
     projects: null,
     groupName: null,
-    apiURL: ""
+    //apiURL: ""
+    apiURL: "http://localhost:8080"
   })
 };
 </script>
