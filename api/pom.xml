@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.stevenpg</groupId>
 	<artifactId>QualityCompendium</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>QualityCompendium</name>
 	<description>Companion application for SonarQube Community Edition that provides project grouping functionality</description>
 
