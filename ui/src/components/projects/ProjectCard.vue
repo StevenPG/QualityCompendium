@@ -6,19 +6,6 @@
           <div class="d-flex flex-no-wrap justify-lg-space-around">
             <v-list-item three-line>
               <v-list-item-content>
-                <div v-if="apiHealthy">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon
-                              large
-                              color="green"
-                              v-on="on"
-                              v-bind:style="{cursor: selectedCursor}"
-                      >mdi-check-circle</v-icon>
-                    </template>
-                    <span>Connected to qc API</span>
-                  </v-tooltip>
-                </div>
                 <div class="overline mb-4">{{ formattedProjectName }}</div>
                 <div class="mb-4">{{ coveragePercentage }}</div>
                 <v-list-item-title class="headline mb-1 d-flex justify-center">Status</v-list-item-title>

@@ -8,8 +8,9 @@
       solo-inverted
       hide-details
       prepend-inner-icon="mdi-magnify"
-      label="Filter (Under Construction)"
-      v-bind:value="this.searchValue"
+      label="Filter"
+      v-model="searchValue"
+      @keyup.native="onChange"
       class="hidden-sm-and-down"
     />
     <v-spacer />
@@ -88,9 +89,10 @@
 import axios from "axios";
 
 export default {
-  props: ['apiurl'],
+  props: ['apiurl', 'searchfield'],
   mounted() {
     // Local Testing
+    this.searchValue = this.searchfield
 
     axios.get(this.apiurl + "/actuator/health").then(response => {
       if (response.status == 200) {
@@ -114,10 +116,16 @@ export default {
         console.log(err);
       });
   },
+  methods: {
+    // eslint-disable-next-line no-unused-vars
+    onChange (event) {
+      this.$emit('filtered', this.searchValue)
+    }
+  },
   data: () => ({
     apiHealthy: false,
     sonarHealthy: false,
-    searchValue: null,
+    searchValue: "",
     sonarqubeURL: null,
     selectedCursor: "pointer"
   })

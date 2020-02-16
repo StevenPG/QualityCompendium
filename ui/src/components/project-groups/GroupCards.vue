@@ -1,29 +1,45 @@
 <template>
   <v-container>
-    <!--<GroupCard v-for="group in groups" :key="group" api_url="" v-bind:projectName="group"/>-->
-    <GroupCard v-for="group in groups" :key="group" api_url="http://localhost:8080" v-bind:projectName="group"/>
+    <Title @filtered="onFilterChange" v-bind:apiurl="API_URL"/>
+    <GroupCard v-for="group in groups" :key="group" api_url="" v-bind:projectName="group"/>
   </v-container>
 </template>
 
 <script>
 import axios from "axios";
 import GroupCard from "./GroupCard";
+import Title from "../../components/Title";
 
 export default {
   components: {
-    GroupCard
+    GroupCard,
+    Title
   },
   mounted() {
     // Make call to get project groups names
     axios.get(this.apiURL + "/api/v2/projectGroups")
     .then(response => {
-      this.groups = response.data;
+      this.allgroups = response.data;
+      this.groups = this.allgroups;
     })
   },
+  methods: {
+    onFilterChange(event) {
+      this.filterContent = event
+      this.groups = []
+      for(let group in this.allgroups){
+        if(this.allgroups[group].toUpperCase().includes(this.filterContent.toUpperCase())){
+          this.groups.push(this.allgroups[group])
+        }
+      }
+    }
+  },
   data: () => ({
+    allgroups: null,
     groups: null,
-    //apiURL: ""
-    apiURL: "http://localhost:8080"
+    filterContent: "",
+    API_URL: "",
+    apiURL: ""
   })
 };
 </script>

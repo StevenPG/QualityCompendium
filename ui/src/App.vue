@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-content>
-      <Title v-bind:apiurl="API_URL"/>
       <router-link :to="{ name: 'home' }"></router-link>
       <router-view></router-view>
     </v-content>
@@ -9,16 +8,10 @@
 </template>
 
 <script>
-import Title from "./components/Title";
 
 export default {
   name: "App",
-  components: {
-    Title
-  },
   data: () => ({
-    //API_URL: ""
-    API_URL: "http://localhost:8080"
   })
 };
 </script>

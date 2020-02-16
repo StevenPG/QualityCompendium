@@ -5,6 +5,13 @@ spring:
 qc:
   file-location: api/testfile.json
 ---
+spring:
+  profiles: local
+
+# Current directory is default
+qc:
+  file-location: testfile.json
+---
 qc:
   update-interval: 5000
 management:
