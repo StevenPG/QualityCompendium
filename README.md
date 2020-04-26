@@ -47,6 +47,12 @@ By default, you are able to provide the following configuration items in the sin
     
 ![Image of qc showing example overview](images/full_image.png?raw=true)
 
+### Persistence
+
+QualityCompendium writes its database file to the database location configuration in the application.yml configuration.
+
+By default, it saves to ./data/. Mount this location to persist data.
+
 ### Releasability Rating
 
 The Core Quality scale is defined as the average passing projects out of total projects in a Project Pages grouping.

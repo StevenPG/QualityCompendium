@@ -1,5 +1,16 @@
 spring:
   profiles: test
+  datasource:
+    url: jdbc:h2:file:~/qc-data/test-configuration
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      path: /h2data
+      enabled: true
 
 # Current directory is default
 qc:
@@ -7,6 +18,17 @@ qc:
 ---
 spring:
   profiles: local
+  datasource:
+    url: jdbc:h2:file:~/qc-data/local-configuration
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      path: /h2data
+      enabled: true
 
 # Current directory is default
 qc:
