@@ -36,15 +36,19 @@ public class SonarQubeDataProxyServicev2 {
     @Autowired
     public SonarQubeDataProxyServicev2(ProjectPageRepository repository){
         this.repository = repository;
-        // temporarily bootstrap
-        var item1 = new ProjectPageEntity();
-        item1.setPagename("All Projects");
-        item1.setProjectKeys("com.stevenpg:SonarQube-Portfolio-Free");
-        var item2 = new ProjectPageEntity();
-        item2.setPagename("Realistic Project");
-        item2.setProjectKeys("project1,com.stevenpg:SonarQube-Portfolio-Free");
-        repository.save(item1);
-        repository.save(item2);
+    }
+
+    public boolean addProjectPage(ProjectPageEntity entity){
+        repository.save(entity);
+        return true;
+    }
+
+    public boolean deleteProjectPage(String pagename) {
+        List<ProjectPageEntity> found_entities = repository.findByPagename(pagename);
+        for(var entity : found_entities){
+            repository.deleteById(entity.getId());
+        }
+        return true;
     }
 
     /**

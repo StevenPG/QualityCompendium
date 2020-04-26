@@ -1,8 +1,6 @@
 package com.stevenpg.qualitycompendium.api.controller;
 
-import com.stevenpg.qualitycompendium.api.data.StateSingleton;
 import com.stevenpg.qualitycompendium.api.datastore.ProjectPageEntity;
-import com.stevenpg.qualitycompendium.api.loader.ProjectPage;
 import com.stevenpg.qualitycompendium.sonarexternal.models.measures.MeasuresResponse;
 import com.stevenpg.qualitycompendium.sonarexternal.models.projectsearch.ProjectSearchResponse;
 import com.stevenpg.qualitycompendium.sonarexternal.service.SonarQubeDataProxyServicev2;
@@ -29,6 +27,32 @@ public class SonarQubeDataProxyControllerv2 {
     @Autowired
     public SonarQubeDataProxyControllerv2(SonarQubeDataProxyServicev2 proxyServicev2) {
         this.proxyServicev2 = proxyServicev2;
+    }
+
+    /**
+     * {
+     * 	"pagename": "testpage",
+     * 	"projectKeys": "project1"
+     * }
+     */
+    @CrossOrigin({ "*" })
+    @PostMapping("/api/v2/addconfig")
+    public Mono<HttpStatus> addProjectPageConfig(@RequestBody ProjectPageEntity entity) {
+        this.proxyServicev2.addProjectPage(entity);
+        return Mono.just(HttpStatus.OK);
+    }
+
+    /**
+     * {
+     * 	"pagename": "testpage"
+     * }
+     */
+    @CrossOrigin({ "*" })
+    @PostMapping("/api/v2/deleteconfig")
+    public Mono<HttpStatus> deleteProjectPageConfig(@RequestBody ProjectPageEntity entity) {
+        log.info("Deleting " + entity.toString());
+        this.proxyServicev2.deleteProjectPage(entity.getPagename());
+        return Mono.just(HttpStatus.OK);
     }
 
     /**
@@ -71,7 +95,6 @@ public class SonarQubeDataProxyControllerv2 {
     @GetMapping("/api/v2/projectGroups/{projectGroup}/measures")
     public @ResponseBody
     Flux<MeasuresResponse> getMeasuresFromGroup(@PathVariable("projectGroup") String projectGroup) {
-        log.info("Retrieving measures for " + projectGroup);
         return proxyServicev2.getGroupMeasures(projectGroup);
     }
 
